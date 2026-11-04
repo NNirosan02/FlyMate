@@ -30,11 +30,15 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.nnapps.flymate.R
+import com.nnapps.flymate.ui.theme.FlyMateTheme
 import com.nnapps.flymate.ui.theme.NeonCyan
 import com.nnapps.flymate.ui.theme.RadarGreen
 import com.nnapps.flymate.ui.theme.TextMuted
@@ -61,7 +65,7 @@ fun HeroFlightCard(flight: FlightDetails, modifier: Modifier = Modifier) {
                 if (!flight.aircraftImageUrl.isNullOrBlank()) {
                     AsyncImage(
                         model = flight.aircraftImageUrl,
-                        contentDescription = "Aircraft Image",
+                        contentDescription = stringResource(R.string.aircraft_image),
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
                     )
@@ -196,7 +200,7 @@ fun HeroFlightCard(flight: FlightDetails, modifier: Modifier = Modifier) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "${flight.elapsedTime}\nElapsed",
+                            text = stringResource(R.string.elapsed, flight.elapsedTime),
                             color = NeonCyan,
                             fontSize = 11.sp,
                             fontWeight = FontWeight.SemiBold
@@ -208,7 +212,7 @@ fun HeroFlightCard(flight: FlightDetails, modifier: Modifier = Modifier) {
                             fontWeight = FontWeight.Medium
                         )
                         Text(
-                            text = "${flight.remainingTime}\nRemaining",
+                            text = stringResource(R.string.remaining, flight.remainingTime),
                             color = NeonCyan,
                             fontSize = 11.sp,
                             fontWeight = FontWeight.SemiBold
@@ -236,7 +240,9 @@ fun ScheduleDetailsSection(flight: FlightDetails, modifier: Modifier = Modifier)
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             ScheduleCard(
-                title = if (isExpected) "Scheduled Departure" else "Departed",                date = flight.depDate,
+                title = if (isExpected) stringResource(R.string.scheduled_departure) else stringResource(
+                    R.string.departed
+                ),
                 date = flight.depDate,
                 time = flight.depTime,
                 gate = flight.depGate,
@@ -246,7 +252,7 @@ fun ScheduleDetailsSection(flight: FlightDetails, modifier: Modifier = Modifier)
             )
 
             ScheduleCard(
-                title = if (isArrived) "Arrived" else "Estimated Arrival",                date = flight.arrDate,
+                title = if (isArrived) stringResource(R.string.arrived) else stringResource(R.string.estimated_arrival),
                 date = flight.arrDate,
                 time = flight.arrTime,
                 gate = flight.arrGate,
@@ -347,7 +353,7 @@ fun ScheduleCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                    Text("Gate", color = TextMuted, fontSize = 9.sp, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.gate), color = TextMuted, fontSize = 9.sp, fontWeight = FontWeight.SemiBold)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -356,7 +362,9 @@ fun ScheduleCard(
                             imageVector = Icons.Default.Flight,
                             contentDescription = null,
                             tint = NeonCyan,
-                            modifier = Modifier.size(13.dp).rotate(45f)
+                            modifier = Modifier
+                                .size(13.dp)
+                                .rotate(45f)
                         )
                         Text(
                             text = gate,
@@ -371,7 +379,7 @@ fun ScheduleCard(
                     horizontalAlignment = Alignment.End,
                     verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
-                    Text("Terminal", color = TextMuted, fontSize = 9.sp, fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.terminal), color = TextMuted, fontSize = 9.sp, fontWeight = FontWeight.SemiBold)
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -544,7 +552,7 @@ fun MapAndTelemetryCard(flight: FlightDetails, modifier: Modifier = Modifier) {
                     )
                     Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
                         Text(
-                            text = "ALTITUDE",
+                            text = stringResource(R.string.altitude).uppercase(),
                             color = TextMuted,
                             fontSize = 9.sp,
                             fontWeight = FontWeight.SemiBold,
@@ -587,20 +595,20 @@ fun MapAndTelemetryCard(flight: FlightDetails, modifier: Modifier = Modifier) {
                     )
                     Column(verticalArrangement = Arrangement.spacedBy(1.dp)) {
                         Text(
-                            text = "SPEED",
+                            text = stringResource(R.string.speed).uppercase(),
                             color = TextMuted,
                             fontSize = 9.sp,
                             fontWeight = FontWeight.SemiBold,
                             letterSpacing = 0.8.sp
                         )
                         Text(
-                            text = "${flight.speedMph} mph",
+                            text = stringResource(R.string.mph, flight.speedMph),
                             color = Color.White,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "${flight.speedKmh} km/h",
+                            text = stringResource(R.string.km_h, flight.speedKmh),
                             color = TextMuted,
                             fontSize = 11.sp
                         )
@@ -673,7 +681,7 @@ fun FlightConfirmationPill(
             }
             flight.status.equals("Arrived", ignoreCase = true) -> {
                 Text(
-                    text = "ARRIVED",
+                    text = stringResource(R.string.arrived).uppercase(),
                     color = TextMuted,
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
@@ -694,5 +702,92 @@ fun FlightConfirmationPill(
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFF080E18)
+@Composable
+fun FlightConfirmationPillPreview() {
+    val sampleSummary = FlightSummary(
+        flightNumber = "KE925",
+        airline = "Korean Air",
+        aircraft = "B77W",
+        originIata = "ICN",
+        destIata = "AMS",
+        depDate = "Sat 31 Oct",
+        status = "En Route",
+        isLive = true
+    )
+    FlyMateTheme {
+        FlightConfirmationPill(
+            flight = sampleSummary,
+            onClick = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFF080E18)
+@Composable
+fun HeroFlightCardPreview() {
+    val sampleFlight = FlightDetails(
+        flightNumber = "KE925",
+        airline = "Korean Air",
+        aircraftModel = "B77W",
+        originIata = "ICN",
+        originAirport = "Incheon Intl",
+        destIata = "AMS",
+        destAirport = "Schiphol",
+        depTime = "12:11 (KST)",
+        depDate = "Sat 31 Oct",
+        depGate = "231",
+        depTerminal = "2",
+        arrTime = "14:50 (CET)",
+        arrDate = "Sat 31 Oct",
+        arrGate = "F6",
+        arrTerminal = "-",
+        arrStatusNote = "Arriving 3h 40m early",
+        elapsedTime = "8h 19m",
+        remainingTime = "2h 20m",
+        progress = 0.78f,
+        altitudeMeters = 10350,
+        flightLevel = "FL340",
+        speedMph = 570,
+        speedKmh = 917
+    )
+    FlyMateTheme {
+        HeroFlightCard(flight = sampleFlight)
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFF080E18)
+@Composable
+fun ScheduleDetailsSectionPreview() {
+    val sampleFlight = FlightDetails(
+        flightNumber = "KE925",
+        airline = "Korean Air",
+        aircraftModel = "B77W",
+        originIata = "ICN",
+        originAirport = "Incheon Intl",
+        destIata = "AMS",
+        destAirport = "Schiphol",
+        depTime = "12:11 (KST)",
+        depDate = "Sat 31 Oct",
+        depGate = "231",
+        depTerminal = "2",
+        arrTime = "14:50 (CET)",
+        arrDate = "Sat 31 Oct",
+        arrGate = "F6",
+        arrTerminal = "-",
+        arrStatusNote = "Arriving 3h 40m early",
+        elapsedTime = "8h 19m",
+        remainingTime = "2h 20m",
+        progress = 0.78f,
+        altitudeMeters = 10350,
+        flightLevel = "FL340",
+        speedMph = 570,
+        speedKmh = 917
+    )
+    FlyMateTheme {
+        ScheduleDetailsSection(flight = sampleFlight)
     }
 }

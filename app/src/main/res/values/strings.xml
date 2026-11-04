@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">FlyMate</string>
+    <string name="aircraft_image">Aircraft Image</string>
+    <string name="elapsed">%1$s\nElapsed</string>
+    <string name="remaining">%1$s\nRemaining</string>
+    <string name="scheduled_departure">Scheduled Departure</string>
+    <string name="departed">Departed</string>
+    <string name="arrived">Arrived</string>
+    <string name="estimated_arrival">Estimated Arrival</string>
+    <string name="gate">Gate</string>
+    <string name="terminal">Terminal</string>
+    <string name="altitude">ALTITUDE</string>
+    <string name="speed">SPEED</string>
+    <string name="mph">%1$d mph</string>
+    <string name="km_h">%1$d km/h</string>
 </resources>
